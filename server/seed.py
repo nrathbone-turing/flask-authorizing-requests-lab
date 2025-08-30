@@ -39,14 +39,20 @@ with app.app_context():
         content = fake.paragraph(nb_sentences=8)
         preview = content[:25] + '...'
         
-        article = Article(
-            author=fake.name(),
-            title=fake.sentence(),
-            content=content,
-            preview=preview,
-            minutes_to_read=randint(1,20),
+        # Ensure the very first article is member-only
+        if i == 0:
+            is_member_only = True
+        else:
             is_member_only = rc([True, False, False])
-        )
+
+        article = Article(
+        author=fake.name(),
+        title=fake.sentence(),
+        content=content,
+        preview=preview,
+        minutes_to_read=randint(1, 20),
+        is_member_only=is_member_only
+    )
 
         articles.append(article)
 
